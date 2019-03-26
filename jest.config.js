@@ -5,6 +5,7 @@
 module.exports = {
     // Automatically clear mock calls and instances between every test
     clearMocks: true,
+    setupTestFrameworkScriptFile: './jest.setup.js',
 
     // An array of glob patterns indicating a set of files for which coverage information should be collected
     collectCoverageFrom: ['src/**/*.{js,jsx,mjs}'],
@@ -40,4 +41,5 @@ module.exports = {
         "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
         "\\.(css|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
     }
+
 }

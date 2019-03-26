@@ -5,7 +5,7 @@ import { HeaderContainer } from '../HeaderContainer'
 import { BodyContainer } from '../BodyContainer'
 
 
-import '../../components/Header/style.scss'
+import '../../components/FilmHeader/style.scss'
 
 export const App = ()=>  {
       return (

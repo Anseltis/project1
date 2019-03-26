@@ -12,8 +12,8 @@ import {
 
 class AppFilmUnwrapped extends React.Component {
   async componentDidMount() {
-    const { SkipRouting } = this.props
-    if (SkipRouting) {
+    const { skipRouting } = this.props
+    if (skipRouting) {
       const { dispatch } = this.props
       dispatch(actionCreator.routing.setSkipRouting(false))
       return
@@ -23,12 +23,12 @@ class AppFilmUnwrapped extends React.Component {
   }
 
   async componentDidUpdate(prevProps) {
-    const { SkipRouting } = this.props
-    if (!SkipRouting && prevProps.SkipRouting) {
+    const { skipRouting } = this.props
+    if (!skipRouting && prevProps.skipRouting) {
       return
     }
     const { dispatch } = this.props
-    if (SkipRouting) {
+    if (skipRouting) {
       dispatch(actionCreator.routing.setSkipRouting(false))
       return
     }

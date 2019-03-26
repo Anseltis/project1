@@ -2,17 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 
-import { MoreMoviesByGenreContainer } from '../MoreMoviesByGenreContainer'
-import { SearchSettings } from '../../components/SearchSettings'
-import { MainScreenContainer } from '../MainScreenContainer'
 import { SearchStatus, SortByParam } from '../../constants'
-import { MovieInfoScreenWrapper } from '../../components/MovieInfoScreenWrapper'
+import { MainBody } from '../../components/MainBody'
 import {
   fullRequestSelector,
   filmsQuantitySelector,
   screenSelector
 } from '../../selectors'
 import { actionCreator } from '../../actions'
+import { FilmBody } from '../../components/FilmBody'
 
 export const BodyContainerUnwrapped = ({
   mainScreen,
@@ -23,21 +21,15 @@ export const BodyContainerUnwrapped = ({
   text
 }) => {
   return mainScreen === SearchStatus.showMovieInfo ? (
-    <MovieInfoScreenWrapper>
-      <MoreMoviesByGenreContainer genre="" />
-    </MovieInfoScreenWrapper>
-  ) : filmsQuantity > 0 ? (
-    <>
-      <SearchSettings
-        counter={filmsQuantity}
-        sortActions={text === '' ? defaultSortActions : sortActions}
-        filter={sortBy}
-        request={text}
-      />
-      <MainScreenContainer />
-    </>
+    <FilmBody />
   ) : (
-    <MainScreenContainer />
+    <MainBody
+      filmsQuantity={filmsQuantity}
+      text={text}
+      defaultSortActions={defaultSortActions}
+      sortActions={sortActions}
+      sortBy={sortBy}
+    />
   )
 }
 
@@ -55,11 +47,15 @@ const mergeProps = (stateProps, dispatchProps) => {
   const { dispatch } = dispatchProps
 
   const handleSortByRatingClick = () => {
-    dispatch(actionCreator.initiate.triggerSortBy(SortByParam.byRating, searchBy, text))
+    dispatch(
+      actionCreator.initiate.triggerSortBy(SortByParam.byRating, searchBy, text)
+    )
   }
 
   const handleSortByDateClick = () => {
-    dispatch(actionCreator.initiate.triggerSortBy(SortByParam.byDate, searchBy, text))
+    dispatch(
+      actionCreator.initiate.triggerSortBy(SortByParam.byDate, searchBy, text)
+    )
   }
 
   const handleDefaultSortByRating = () => {
@@ -67,7 +63,7 @@ const mergeProps = (stateProps, dispatchProps) => {
   }
 
   const handleDefaultSortByDate = () => {
-    dispatch(actionCreator.initiate.triggerSortByDefault(SortByParam.byDate, searchBy, text))
+    dispatch(actionCreator.initiate.triggerSortByDefault(SortByParam.byDate))
   }
 
   return {

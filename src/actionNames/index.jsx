@@ -1,7 +1,7 @@
 export const actions = {
   search: {
-    BySwitchAction: 'searchBySwitchAction',
-    DataAction: 'searchDataAction'
+    bySwitchAction: 'searchBySwitchAction',
+    dataAction: 'searchDataAction'
   },
 
   loadingStatusUpdate: 'loadingStatusUpdate',
@@ -24,8 +24,8 @@ export const actions = {
 
 export const sagaActions = {
   sagaSearch: {
-    BySwitchAction: 'sagaSearchBySwitchAction',
-    DataAction: 'sagaSearchDataAction'
+    bySwitchAction: 'sagaSearchBySwitchAction',
+    dataAction: 'sagaSearchDataAction'
   },
   sagaAppFilmAction: 'sagaAppFilmAction',
   sagaAppFilterAction: 'sagaAppFilterAction',

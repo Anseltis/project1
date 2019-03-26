@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-export const filmSelector = state => state.main.get('ChosenFilm')
+export const filmSelector = state => state.main.get('chosenFilm')
 export const filmInfoSelector = createSelector(
     filmSelector,
     film => ({

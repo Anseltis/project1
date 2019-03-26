@@ -7,12 +7,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import createSagaMiddleware from 'redux-saga'
 
 import { reducer } from './reducers/index'
-import { Test } from './components/Test'
 import { AppFilm } from './containers/AppFilm'
 import { AppMain } from './containers/AppMain'
 import { AppFilter } from './containers/AppFilter'
 import { NotFound } from './components/NotFound'
-import rootSaga from '../sagas/saga'
+import rootSaga from '../sagas'
 
 import './style.scss'
 
@@ -26,7 +25,6 @@ render(
   <BrowserRouter>
     <Provider store={store}>
       <Switch>
-        <Route path="/test" component={Test} />
         <Route path="/films/:id" exact component={AppFilm} />
         <Route path="/filter" component={AppFilter} />
         <Route path="/" exact component={AppMain} />

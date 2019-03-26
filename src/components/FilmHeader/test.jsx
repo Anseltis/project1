@@ -1,14 +1,14 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { Header } from 'components/Header/index'
+import { Header } from 'components/FilmHeader/index'
 
 jest.mock('../../containers/FormContainer')
 
 const filmMock = {}
 
-describe('Header', () => {
-  test('renders Header for searchResults properly', () => {
+describe('FilmHeader', () => {
+  test('renders FilmHeader for searchResults properly', () => {
     const wrapper = renderer.create(<Header />).toJSON()
     expect(wrapper).toMatchSnapshot()
   })

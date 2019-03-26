@@ -1,4 +1,4 @@
-import { getFilms } from './getFilms'
+import { getFilms } from './makeFilmsQuery'
 
 test('calls axios', async () => {
   const films = await getFilms({

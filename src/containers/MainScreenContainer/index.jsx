@@ -19,12 +19,11 @@ import { actionCreator } from '../../actions'
 export class MainScreenUnwrapped extends React.Component {
   onClickHandle = ({ dataKey }) => {
     const { dispatch, filmsArray, film } = this.props
-    dispatch(actionCreator.initiate.setChosenFilm(filmsArray, film, dataKey, this.state))
+    dispatch(actionCreator.initiate.setChosenFilm(filmsArray, film, dataKey))
   }
 
   render() {
     const {
-      filmsLoadingStatus,
       mainScreen,
       filmsArray,
       filmsQuantity
@@ -32,11 +31,7 @@ export class MainScreenUnwrapped extends React.Component {
     if (filmsQuantity > 0 && mainScreen === SearchStatus.showRequested) {
       const array = filmsArray
       return <MainScreen films={array} onclick={this.onClickHandle} />
-    } else if (filmsLoadingStatus && filmsQuantity === 0) {
-      return <NoResults />
-    } else {
-      return <NoResults />
-    }
+    } return <NoResults />
   }
 }
 

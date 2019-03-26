@@ -4,8 +4,8 @@ import { searchRequestSelector } from './searchParamsSelector'
 export const fullRequestSelector = createSelector(
     searchRequestSelector,
     searchParams => ({
-        sortBy: searchParams.get('SortBy'),
-        searchBy: searchParams.get('SearchBy'),
-        text: searchParams.get('Text')
+        sortBy: searchParams.get('sortBy'),
+        searchBy: searchParams.get('searchBy'),
+        text: searchParams.get('text')
     })
 )

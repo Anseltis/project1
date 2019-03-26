@@ -2,14 +2,14 @@ import { actions } from '../actionNames'
 
 export const getData = data => {
   return {
-    type: actions.search.DataAction,
+    type: actions.search.dataAction,
     payload: data
   }
 }
 
 export const searchFilter = filter => {
   return {
-    type: actions.search.BySwitchAction,
+    type: actions.search.bySwitchAction,
     payload: filter
   }
 }

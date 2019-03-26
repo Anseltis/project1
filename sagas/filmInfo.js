@@ -1,6 +1,7 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects'
 import { actionCreator } from '../src/actions'
-import { getFilms } from '../src/services/getFilms/getFilms'
+import { makeRequest } from '../src/services/getFilms/makeRequest'
+import { makeFilmsQuery } from '../src/services/getFilms/makeFilmsQuery'
 import { sagaActions } from '../src/actionNames'
 import { sameFilmsGenreSelector } from '../src/selectors/sameFilmsGenreSelector'
 
@@ -16,11 +17,11 @@ function* filmInfo(action) {
     return
   }
 
-  const films = yield call(getFilms, {
+  const films = yield call(makeRequest, makeFilmsQuery ({
     sortBy: 'release_date',
     value: newFilm.genres[0],
     searchByFilter: 'genres'
-  })
+  }))
   yield put(actionCreator.sameGenre.getFilms(films, newFilm.genres[0]))
 }
 
