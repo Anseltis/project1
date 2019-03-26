@@ -1,21 +1,19 @@
 import { sagaActions } from '../actionNames'
 import { SearchStatus } from '../constants'
 
-export const setChosenFilm = (array, film, key, state) => {
+export const setChosenFilm = (array, film, key) => {
     return {
         type: sagaActions.sagaFilmObject,
         array,
         key,
         film: film,
-        state,
         status: SearchStatus.showMovieInfo,
     }
 }
 
-export const setInfoFromRouting = (sortBy, match) => {
+export const setInfoFromRouting = (match) => {
     return {
         type: sagaActions.sagaAppFilmAction,
-        sortBy,
         match
     }
 }
@@ -53,9 +51,8 @@ export const triggerFormSubmit = (value, searchByFilter, sortBy) => {
     }
 }
 
-export const triggerFetchAllFilms = sortBy => {
+export const triggerFetchAllFilms = () => {
     return {
-        type: sagaActions.sagaFetchAllFilmsAction,
-        sortBy
+        type: sagaActions.sagaFetchAllFilmsAction
     }
 }

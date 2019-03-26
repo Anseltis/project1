@@ -14,19 +14,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-export async function getAllFilms(sortBy) {
-  const query = gql`
+const query = sortBy => gql`
   query movies {
     data(sortBy:${sortBy}, sortOrder: "desc") @rest(type: "Movies", path: "/?{args}",) {
       data
     }
   }
 `
-  const response = await client.query({ query })
-  response.errors = null
-  if (!response.data.data) {
-    return []
-  }
-
-  return response.data.data.data || []
+export async function getAllFilms(sortBy) {
+  const response = await client.query({ query: query(sortBy) })
+  return (response.data.data || {}).data || []
 }

@@ -2,97 +2,39 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 
-import { MoreMoviesByGenreContainer } from '../MoreMoviesByGenreContainer'
+import { actionCreator } from '../../actions'
 import { SearchSettings } from '../../components/SearchSettings'
 import { MainScreenContainer } from '../MainScreenContainer'
-import { SearchStatus, SortByParam } from '../../constants'
-import { MovieInfoScreenWrapper } from '../../components/MovieInfoScreenWrapper'
-import {
-  fullRequestSelector,
-  filmsQuantitySelector,
-  screenSelector
-} from '../../selectors'
-import { actionCreator } from '../../actions'
+import { fullRequestSelector, filmsQuantitySelector } from '../../selectors'
 
-export const BodyContainerUnwrapped = ({
-  mainScreen,
-  sortActions,
-  defaultSortActions,
-  filmsQuantity,
-  sortBy,
-  text
-}) => {
-  return mainScreen === SearchStatus.showMovieInfo ? (
-    <MovieInfoScreenWrapper>
-      <MoreMoviesByGenreContainer genre="" />
-    </MovieInfoScreenWrapper>
-  ) : filmsQuantity > 0 ? (
-    <>
-      <SearchSettings
-        counter={filmsQuantity}
-        sortActions={text === '' ? defaultSortActions : sortActions}
-        filter={sortBy}
-        request={text}
-      />
-      <MainScreenContainer />
-    </>
-  ) : (
+const handleSortClick = dispatch => (searchBy, text) => sortBy => {
+  const action = text === ''
+    ? actionCreator.initiate.triggerSortByDefault(sortBy)
+    : actionCreator.initiate.triggerSortBy(sortBy, searchBy, text);
+  return () => dispatch(action)
+}
+
+export const bodyContainer = ({ handleSortClick, filmsInfo, searchParams }) => {
+  const searchSettings =
+    <SearchSettings
+      counter={filmsInfo.filmsQuantity}
+      handleSortClick={handleSortClick(searchParams.searchBy, searchParams.text)}
+      filter={searchParams.sortBy}
+      request={searchParams.text}
+    />
+  return <>
+    {filmsInfo.filmsQuantity.filmsQuantity > 0 && searchSettings}
     <MainScreenContainer />
-  )
+  </>
 }
 
 const mapStateToProps = createSelector(
-  [filmsQuantitySelector, fullRequestSelector, screenSelector],
-  (filmsInfo, searchParams, screen) => ({
-    ...filmsInfo,
-    ...searchParams,
-    ...screen
-  })
+  [filmsQuantitySelector, fullRequestSelector],
+  (filmsInfo, searchParams) => ({ filmsInfo, searchParams })
 )
 
-const mergeProps = (stateProps, dispatchProps) => {
-  const { searchBy, text } = stateProps
-  const { dispatch } = dispatchProps
+const mapDispatchToProps = dispatch => ({
+  handleSortClick: handleSortClick(dispatch)
+})
 
-  const handleSortByRatingClick = () => {
-    dispatch(actionCreator.initiate.triggerSortBy(SortByParam.byRating, searchBy, text))
-  }
-
-  const handleSortByDateClick = () => {
-    dispatch(actionCreator.initiate.triggerSortBy(SortByParam.byDate, searchBy, text))
-  }
-
-  const handleDefaultSortByRating = () => {
-    dispatch(actionCreator.initiate.triggerSortByDefault(SortByParam.byRating))
-  }
-
-  const handleDefaultSortByDate = () => {
-    dispatch(actionCreator.initiate.triggerSortByDefault(SortByParam.byDate, searchBy, text))
-  }
-
-  return {
-    ...stateProps,
-    sortActions: {
-      sortByRating: () => {
-        handleSortByRatingClick()
-      },
-      sortByDate: () => {
-        handleSortByDateClick()
-      }
-    },
-    defaultSortActions: {
-      sortByRating: () => {
-        handleDefaultSortByRating()
-      },
-      sortByDate: () => {
-        handleDefaultSortByDate()
-      }
-    }
-  }
-}
-
-export const BodyContainer = connect(
-  mapStateToProps,
-  null,
-  mergeProps
-)(BodyContainerUnwrapped)
+export const BodyContainer = connect(mapStateToProps, mapDispatchToProps)(bodyContainer)

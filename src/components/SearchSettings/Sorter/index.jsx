@@ -17,37 +17,24 @@ const styles = {
   }
 }
 
-const SortButtonUnwrapped = ({ caption, handler, classes }) => {
-  return (
-    <button
-      onClick={handler}
-      className={classes.chosen }
-    >
-      {caption}
-    </button>
-  )
-}
-
-export const Sorter = ({ sortActions, filter, classes }) => {
-  return (
-    <>
-      <span className="search-settings__sort-by">Sort by</span>
-      <SortButton
-        active={filter === SortByParam.byDate}
-        caption="release date"
-        handler={sortActions.sortByDate}
-        classes={classes}
-      />
-      <SortButton
-        active={filter === SortByParam.byRating}
-        caption="rating"
-        handler={sortActions.sortByRating}
-        classes={classes}
-      />
-    </>
-  )
-}
+const SortButtonUnwrapped = ({ caption, handler, classes }) =>
+  <button onClick={handler} className={classes.chosen}>{caption}</button>
 
 const SortButton = withStyles(styles)(SortButtonUnwrapped)
 
-
+export const Sorter = ({ handleSortClick, filter, classes }) => {
+  const sortButton = (caption, searchBy) =>
+    <SortButton
+      active={filter === searchBy}
+      caption={caption}
+      handler={handleSortClick(searchBy)}
+      classes={classes}
+    />
+  return (
+    <>
+      <span className="search-settings__sort-by">Sort by</span>
+      {sortButton("release date", SortByParam.byDate)}
+      {sortButton("rating", SortByParam.byRating)}
+    </>
+  )
+}

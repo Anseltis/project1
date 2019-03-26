@@ -2,6 +2,7 @@
   "extends": [
     "airbnb",
     "eslint:recommended",
+    "eslint-config-jss",
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -20,6 +21,7 @@
     }
   },
   "rules": {
+    "complexity": ["error", 20],
     "import/no-extraneous-dependencies": 0,
     "import/prefer-default-export": 0,
     "linebreak-style": ["error", "windows"],
@@ -27,6 +29,9 @@
     "jsx-a11y/label-has-for": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/label-has-associated-control": 0,
+    "max-lines-per-function": ["error", 50],
+    "no-shadow": 0,
+    "object-shorthand": 0,
     "react/button-has-type": 0,
     "react/prop-types": 0
   },

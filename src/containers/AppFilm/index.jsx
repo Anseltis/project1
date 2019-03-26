@@ -1,52 +1,19 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { createSelector } from 'reselect'
 
-import { App } from '../App'
-import { actionCreator } from '../../actions'
-import {
-  searchParamsSelector,
-  routingSelector
-} from '../../selectors'
+import { actionCreator } from "../../actions"
+import { Footer } from '../../components/Footer'
+import { HeaderContainer } from '../HeaderContainer'
+import { MovieInfoScreenWrapper } from '../../components/MovieInfoScreenWrapper'
+import { MoreMoviesByGenreContainer } from '../MoreMoviesByGenreContainer'
+import { RoutedApp } from '../RoutedApp'
 
-class AppFilmUnwrapped extends React.Component {
-  async componentDidMount() {
-    const { SkipRouting } = this.props
-    if (SkipRouting) {
-      const { dispatch } = this.props
-      dispatch(actionCreator.routing.setSkipRouting(false))
-      return
-    }
-    const { dispatch, sortBy, match } = this.props
-    dispatch(actionCreator.initiate.setInfoFromRouting(sortBy, match))
-  }
+const createAction = ({ match }) => actionCreator.initiate.setInfoFromRouting(match)
 
-  async componentDidUpdate(prevProps) {
-    const { SkipRouting } = this.props
-    if (!SkipRouting && prevProps.SkipRouting) {
-      return
-    }
-    const { dispatch } = this.props
-    if (SkipRouting) {
-      dispatch(actionCreator.routing.setSkipRouting(false))
-      return
-    }
-    const { sortBy, match } = this.props
-    dispatch(actionCreator.initiate.setInfoFromRouting(sortBy, match))
-  }
-  render() {
-    return <App />
-  }
-}
-
-const mapStateToProps = createSelector(
-  [routingSelector, searchParamsSelector],
-  (routing, searchParams) => {
-    return ({
-    ...routing,
-    ...searchParams
-  })}
-)
-
-export const AppFilm = withRouter(connect(mapStateToProps)(AppFilmUnwrapped))
+export const AppFilm = () =>
+    <RoutedApp createAction={createAction}>
+        <HeaderContainer />
+        <MovieInfoScreenWrapper>
+            <MoreMoviesByGenreContainer genre="" />
+        </MovieInfoScreenWrapper>
+        <Footer />
+    </RoutedApp>

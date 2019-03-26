@@ -19,23 +19,25 @@ const client = new ApolloClient({
 })
 })
 
-export async function getFilmById(id) {
-  const query = gql`
-  query movie {
-    data(id: ${id}) @rest(type: "Movie", path: "/${id}",) {
-        genres
-        id
-        title
-        overview
-        poster_path
-        release_date
-        runtime
-        tagline
-        vote_average
-    }
+// eslint-disable-next-line max-lines-per-function
+const query = id => gql`
+query movie {
+  data(id: ${id}) @rest(type: "Movie", path: "/${id}",) {
+      genres
+      id
+      title
+      overview
+      poster_path
+      release_date
+      runtime
+      tagline
+      vote_average
   }
+}
 `
-  const response = await client.query({ query })
+
+export async function getFilmById(id) {
+  const response = await client.query({ query: query(id) })
   if (!response.data) {
     return []
   }

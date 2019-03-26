@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import { FormClass, HeaderClass, SearchButtonClass, SearchStatus } from '../../constants'
 
 export const screenSelector = state => ({
@@ -5,7 +6,7 @@ export const screenSelector = state => ({
 })
 
 export const routingSelector = state => ({
-    SkipRouting: state.routing.get('SkipRouting')
+    skipRouting: state.routing.get('SkipRouting')
 })
 
 export const sortBySelector = state => ({
@@ -15,7 +16,7 @@ export const sortBySelector = state => ({
 export const formClassSelector = state => ({
     formClass:
         state.main.get('ScreenType') === SearchStatus.showMovieInfo ||
-        state.main.ScreenType === SearchStatus.notFound
+            state.main.ScreenType === SearchStatus.notFound
             ? FormClass.hidden
             : FormClass.default
 })
@@ -27,12 +28,14 @@ export const headerClassSelector = state => ({
             : HeaderClass.searchResult
 })
 
-export const searchButtonSelector = state => ({
-    searchButtonClass:
-        state.main.get('ScreenType') === SearchStatus.showMovieInfo
-            ? SearchButtonClass.default
-            : SearchButtonClass.hidden
-})
+export const searchButtonSelector = createSelector(
+    createSelector(
+        createSelector(
+            state => state.main,
+            main => main.get('ScreenType') === SearchStatus.showMovieInfo
+        ),
+        isShowMovieInfo => isShowMovieInfo ? SearchButtonClass.hidden : SearchButtonClass.default),
+    searchButtonClass => ({ searchButtonClass: searchButtonClass }))
 
 export const movieInfoFlagSelector = state => ({
     isMovieInfo: state.main.get('ScreenType') === SearchStatus.showMovieInfo

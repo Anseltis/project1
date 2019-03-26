@@ -5,8 +5,9 @@ export class ErrorBoundary extends React.Component {
         super(props)
         this.state = { hasError: false }
     }
+
     componentDidCatch() {
-        this.setState({hasError: true})
+        this.setState({ hasError: true })
     }
 
     render() {

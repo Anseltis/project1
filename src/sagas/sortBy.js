@@ -1,20 +1,20 @@
 import { takeEvery, put, call } from 'redux-saga/effects'
-import { actionCreator } from '../src/actions'
-import { getFilms } from '../src/services/getFilms/getFilms'
+import { actionCreator } from '../actions'
+import { getFilms } from '../services/getFilms/getFilms'
 import { fetchAllFilms } from './fetchAllFilms'
-import { sagaActions } from '../src/actionNames'
+import { sagaActions } from '../actionNames'
 
 function* sortBy(action) {
-  const sortBy = yield action.sortBy
-  const value = yield action.value
-  const searchByFilter = yield action.searchBy
+  const sortBy = action.sortBy
+  const value = action.value
+  const searchByFilter = action.searchBy
   yield put(actionCreator.search.sortFilter(sortBy))
   const films = yield call(getFilms, { sortBy, value, searchByFilter })
   yield put(actionCreator.mainFilms.setFilmsInfo(films))
 }
 
 function* sortByDefault(action) {
-  const sortBy = yield action.sortBy
+  const sortBy = action.sortBy
   yield put(actionCreator.search.sortFilter(sortBy))
   yield fetchAllFilms(actionCreator.initiate.triggerFetchAllFilms(sortBy))
 }

@@ -6,8 +6,7 @@ import { watchSortByAction } from './sortBy'
 import { watchFormSubmitAction } from './formSubmit'
 import { watchSagaFetchFilmsAction } from './fetchAllFilms'
 
-function logSaga(action) {
-    console.log(action.type)
+function logSaga() {
 }
 
 function* watchAllActions(){

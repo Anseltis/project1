@@ -1,14 +1,14 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects'
-import { actionCreator } from '../src/actions'
-import { getFilms } from '../src/services/getFilms/getFilms'
-import { sagaActions } from '../src/actionNames'
-import { sameFilmsGenreSelector } from '../src/selectors/sameFilmsGenreSelector'
+import { actionCreator } from '../actions'
+import { getFilms } from '../services/getFilms/getFilms'
+import { sagaActions } from '../actionNames'
+import { sameFilmsGenreSelector } from '../selectors/sameFilmsGenreSelector'
 
 function* filmInfo(action) {
-  const newFilm = yield action.array[action.key]
+  const newFilm = action.array[action.key]
   const state = yield select()
-  const oldGenre = yield sameFilmsGenreSelector(state).genre
-  const isGenreTheSame = yield oldGenre === newFilm.genres[0]
+  const oldGenre = sameFilmsGenreSelector(state).genre
+  const isGenreTheSame = oldGenre === newFilm.genres[0]
   yield put(actionCreator.routing.setSkipRouting(true))
   yield put(actionCreator.chosenFilm.setInfo(newFilm))
 

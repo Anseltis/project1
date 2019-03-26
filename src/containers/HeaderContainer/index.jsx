@@ -14,31 +14,12 @@ import {
   searchButtonSelector
 } from '../../selectors'
 
-export const HeaderUnwrapped = props => {
-  const handleClick = () => {
-    const { dispatch } = props
-    dispatch(actionCreator.chosenFilm.clearInfo(''))
-  }
-  const {
-    className,
-    film,
-    mainScreen,
-    genre,
-    searchButtonClass,
-    isMovieInfo
-  } = props
-  return mainScreen === SearchStatus.showMovieInfo ? (
-    <>
-      <Header
-        film={film}
-        className={className}
-        onclick={handleClick}
-        searchButtonClass={searchButtonClass}
-        isMovieInfo={isMovieInfo}
-      />
-      <SubHeader genre={genre} />
-    </>
-  ) : (
+const handleClick = dispatch => () => {
+  dispatch(actionCreator.chosenFilm.clearInfo(''))
+}
+
+export const HeaderUnwrapped = ({ className, film, mainScreen, genre, searchButtonClass, isMovieInfo, handleClick }) => {
+  return (<>
     <Header
       film={film}
       className={className}
@@ -46,7 +27,8 @@ export const HeaderUnwrapped = props => {
       searchButtonClass={searchButtonClass}
       isMovieInfo={isMovieInfo}
     />
-  )
+    {(mainScreen === SearchStatus.showMovieInfo) && <SubHeader genre={genre} />}
+  </>)
 }
 
 const mapStateToProps = createSelector(
@@ -66,4 +48,8 @@ const mapStateToProps = createSelector(
   })
 )
 
-export const HeaderContainer = connect(mapStateToProps)(HeaderUnwrapped)
+const mapDispathToProps = dispatch => ({
+  handleClick: handleClick(dispatch)
+})
+
+export const HeaderContainer = connect(mapStateToProps, mapDispathToProps)(HeaderUnwrapped)

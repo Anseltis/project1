@@ -3,9 +3,7 @@ import { filmSelector } from './filmInfoSelector'
 
 
 
-export const chosenFilmInfoSelector = createSelector (
+export const chosenFilmInfoSelector = createSelector(
     filmSelector,
-    film => ({
-        film: film ? film : {}
-    })
+    (film = {}) => film
 )

@@ -8,32 +8,29 @@ import { YetLoader } from '../../components/YetLoader'
 import { isInitializedSelector, sameGenreInfoSelector } from '../../selectors'
 import { actionCreator } from '../../actions'
 
-export class MoreMoviesByGenreUnwrapped extends React.Component {
-  onClickHandle = ({ dataKey }) => {
-    const { dispatch, sameGenreFilms, film } = this.props
-    dispatch(
-      actionCreator.initiate.setChosenFilm(sameGenreFilms, film, dataKey)
-    )
+const clickHandler = dispatch => ({ sameGenreFilms, film }) => ({ dataKey }) =>
+  dispatch(actionCreator.initiate.setChosenFilm(sameGenreFilms, film, dataKey))
+
+const moreMoviesByGenreContainer = ({ sameGenreFilms, film, onClick }) => {
+  if (sameGenreFilms.length === 0) {
+    return <YetLoader />
   }
 
-  render() {
-    const { sameGenreFilms } = this.props
-    return sameGenreFilms.length > 0 ? (
-      <SearchResultLayout films={sameGenreFilms} onclick={this.onClickHandle} />
-    ) : (
-      <YetLoader />
-    )
-  }
+  return <SearchResultLayout films={sameGenreFilms} onclick={onClick({ sameGenreFilms, film })} />
 }
 
 const mapStateToProps = createSelector(
   [sameGenreInfoSelector, isInitializedSelector],
-  (sameFilms, film =() =>{}) => ({
+  (sameFilms, film = {}) => ({
     ...sameFilms,
     ...film
   })
 )
 
+const mapDispatchToProps = dispatch => ({
+  onClick: clickHandler(dispatch)
+})
+
 export const MoreMoviesByGenreContainer = withRouter(
-  connect(mapStateToProps)(MoreMoviesByGenreUnwrapped)
+  connect(mapStateToProps, mapDispatchToProps)(moreMoviesByGenreContainer)
 )

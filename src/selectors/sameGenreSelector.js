@@ -5,6 +5,6 @@ export const sameGenreInfoSelector = createSelector(
     sameGenreSelector,
     sameFilms => ({
         sameGenreFilms: sameFilms.films,
-        filmsAreLoaded: sameFilms.films.length > 0
+        filmsAreLoaded: sameFilms && sameFilms.films && sameFilms.films.length > 0
     })
 )

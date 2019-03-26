@@ -1,31 +1,20 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { createSelector } from 'reselect'
+import { parse } from 'query-string'
 
-import { App } from '../App'
 import { actionCreator } from '../../actions'
-import { fullRequestSelector, sortBySelector } from '../../selectors'
+import { BodyContainer } from '../BodyContainer'
+import { Footer } from '../../components/Footer'
+import { HeaderContainer } from '../HeaderContainer'
+import { RoutedApp } from '../RoutedApp'
 
-export class AppFilterUnwrapped extends React.Component {
-  async componentDidMount() {
-    const { dispatch, sortBy, text } = this.props
-    if (text !== '') {
-      return
-    }
-    const params = new URLSearchParams(location.search)
-    dispatch(actionCreator.initiate.getInfoFromUrl(params, sortBy))
-  }
-  render() {
-    return <App />
-  }
+const createAction = ({ location }) => {
+  const params = parse(location.search)
+  return actionCreator.initiate.getInfoFromUrl(params)
 }
 
-const mapStateToProps = createSelector(
-  [sortBySelector, fullRequestSelector],
-  (sortBy, searchParams) => ({
-    ...sortBy,
-    ...searchParams
-  })
-)
-
-export const AppFilter = connect(mapStateToProps)(AppFilterUnwrapped)
+export const AppFilter = () =>
+  <RoutedApp createAction={createAction}>
+    <HeaderContainer />
+    <BodyContainer />
+    <Footer />
+  </RoutedApp>

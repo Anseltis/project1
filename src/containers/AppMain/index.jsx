@@ -1,27 +1,15 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { createSelector } from 'reselect'
 
-import { App } from '../App'
-import { sortBySelector } from '../../selectors'
 import { actionCreator } from '../../actions'
+import { BodyContainer } from '../BodyContainer'
+import { Footer } from '../../components/Footer'
+import { HeaderContainer } from '../HeaderContainer'
+import { RoutedApp } from '../RoutedApp'
 
-class AppMainUnwrapped extends React.Component {
-  async componentDidMount() {
-    const { sortBy, dispatch } = this.props
-    dispatch(actionCreator.initiate.triggerFetchAllFilms(sortBy))
-  }
-
-  render() {
-    return <App />
-  }
-}
-
-const mapStateToProps = createSelector(
-  sortBySelector,
-  sortBy => ({
-    ...sortBy
-  })
-)
-
-export const AppMain = connect(mapStateToProps)(AppMainUnwrapped)
+const createAction = () => actionCreator.initiate.triggerFetchAllFilms()
+export const AppMain = () =>
+    <RoutedApp createAction={createAction}>
+        <HeaderContainer />
+        <BodyContainer />
+        <Footer />
+    </RoutedApp>

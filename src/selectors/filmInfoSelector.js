@@ -4,7 +4,7 @@ export const filmSelector = state => state.main.get('ChosenFilm')
 export const filmInfoSelector = createSelector(
     filmSelector,
     film => ({
-        film: film ? film : {},
-        genre: film ? film.genres[0] : null
+        film: film || {},
+        genre: (film || { genres: [null] }).genres[0]
     })
 )
