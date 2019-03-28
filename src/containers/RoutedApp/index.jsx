@@ -18,8 +18,8 @@ class skipRouting extends React.Component {
   skipRoute = () => {
     const { skipRouting } = this.props
     if (skipRouting) {
-      const { setSkipRouting } = this.props
-      setSkipRouting(true)
+      const { setOffSkipRouting } = this.props
+      setOffSkipRouting()
       return
     }
 
@@ -39,7 +39,9 @@ const SkipRouting = withRouter(skipRouting)
 
 export const RoutedAppProvider = ({ children }) => {
   const [skipRouting, setSkipRouting] = useState(false)
-  return <RoutedAppContext.Provider value={{ skipRouting, setSkipRouting }}>
+  const setOnSkipRouting = () => setSkipRouting(true)
+  const setOffSkipRouting = () => setSkipRouting(true)
+  return <RoutedAppContext.Provider value={{ skipRouting, setOnSkipRouting, setOffSkipRouting }}>
     {children}
   </RoutedAppContext.Provider>
 }
@@ -53,10 +55,9 @@ export const RoutedApp = ({ onInitialized, children }) => {
 }
 
 export const useRoutedApp = (WrappedComponent) => {
-  const routedAppComponent = (props) => {
-    return <RoutedAppContext.Consumer>
-      {context => <WrappedComponent {...props} {...context} />}
+  const routedAppComponent = (props) =>
+    <RoutedAppContext.Consumer>
+      {({ setOnSkipRouting }) => <WrappedComponent setOnSkipRouting={setOnSkipRouting} {...props} />}
     </RoutedAppContext.Consumer>
-  }
   return routedAppComponent
 }
