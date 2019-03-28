@@ -4,12 +4,12 @@ import { actionCreator } from '../../actions'
 import { BodyContainer } from '../BodyContainer'
 import { Footer } from '../../components/Footer'
 import { HeaderContainer } from '../HeaderContainer'
-import { RoutedApp } from '../RoutedApp'
+import { RoutedAppContainer } from '../RoutedAppContainer';
 
 const createAction = () => actionCreator.initiate.triggerFetchAllFilms()
 export const AppMain = () =>
-    <RoutedApp createAction={createAction}>
+    <RoutedAppContainer createAction={createAction}>
         <HeaderContainer />
         <BodyContainer />
         <Footer />
-    </RoutedApp>
+    </RoutedAppContainer>

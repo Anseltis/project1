@@ -9,7 +9,6 @@ function* filmInfo(action) {
   const state = yield select()
   const oldGenre = sameFilmsGenreSelector(state).genre
   const isGenreTheSame = oldGenre === newFilm.genres[0]
-  yield put(actionCreator.routing.setSkipRouting(true))
   yield put(actionCreator.chosenFilm.setInfo(newFilm))
 
   if (isGenreTheSame) {

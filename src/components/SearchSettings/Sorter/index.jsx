@@ -23,13 +23,13 @@ const SortButtonUnwrapped = ({ caption, handler, classes }) =>
 const SortButton = withStyles(styles)(SortButtonUnwrapped)
 
 export const Sorter = ({ handleSortClick, filter, classes }) => {
-  const sortButton = (caption, searchBy) =>
-    <SortButton
-      active={filter === searchBy}
-      caption={caption}
-      handler={handleSortClick(searchBy)}
-      classes={classes}
-    />
+  const sortButton = (caption, searchBy) => 
+  <SortButton
+    active={filter === searchBy}
+    caption={caption}
+    handler={handleSortClick(searchBy)}
+    classes={classes}
+  />
   return (
     <>
       <span className="search-settings__sort-by">Sort by</span>

@@ -14,7 +14,7 @@ function* watchAllActions(){
 
 }
 
-export default function* rootSaga() {
+export function* rootSaga() {
     yield  all([
         watchAllActions(),
         watchFilmObjectActionSaga(),

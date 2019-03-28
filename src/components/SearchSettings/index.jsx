@@ -8,9 +8,7 @@ export const SearchSettings = ({ counter, handleSortClick, filter }) =>
             <span className='search-settings__info'>{counter} movies found</span>
         </div>
         <div className='search-settings__controls'>
-            <Sorter handleSortClick={handleSortClick}
-                filter={filter}
-            />
+            <Sorter handleSortClick={handleSortClick} filter={filter} />
         </div>
     </div>
 

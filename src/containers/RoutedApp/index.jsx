@@ -1,18 +1,16 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { actionCreator } from '../../actions'
-import { routingSelector } from '../../selectors'
+export const RoutedAppContext = React.createContext()
 
-class routedApp extends React.Component {
+class skipRouting extends React.Component {
   componentDidMount() {
     this.skipRoute()
   }
 
   componentDidUpdate(prevProps) {
     const { skipRouting } = this.props
-    if (skipRouting || !prevProps.SkipRouting) {
+    if (skipRouting || !prevProps.skipRouting) {
       this.skipRoute()
     }
   }
@@ -20,25 +18,45 @@ class routedApp extends React.Component {
   skipRoute = () => {
     const { skipRouting } = this.props
     if (skipRouting) {
-      const { onSkipRouting } = this.props
-      onSkipRouting()
+      const { setSkipRouting } = this.props
+      setSkipRouting(true)
       return
     }
 
-    const { createAction, match, location, history } = this.props
-    createAction({ match, location, history })
+    const { onInitialized, match, location, history } = this.props
+    if (onInitialized) {
+      onInitialized({ match, location, history })
+    }
   }
 
   render() {
-    const {children} = this.props;
+    const { children } = this.props;
     return children;
   }
 }
 
-const mapDispatchToProps = (dispatch, { createAction }) => ({
-  onSkipRouting: () => dispatch(actionCreator.routing.setSkipRouting(false)),
-  createAction: routeProps => dispatch(createAction(routeProps))
+const SkipRouting = withRouter(skipRouting)
 
-})
+export const RoutedAppProvider = ({ children }) => {
+  const [skipRouting, setSkipRouting] = useState(false)
+  return <RoutedAppContext.Provider value={{ skipRouting, setSkipRouting }}>
+    {children}
+  </RoutedAppContext.Provider>
+}
 
-export const RoutedApp = withRouter(connect(routingSelector, mapDispatchToProps)(routedApp))
+export const RoutedApp = ({ onInitialized, children }) => {
+  return <RoutedAppContext.Consumer>
+    {context => <SkipRouting onInitialized={onInitialized} {...context} >
+      {children}
+    </SkipRouting>}
+  </RoutedAppContext.Consumer>
+}
+
+export const useRoutedApp = (WrappedComponent) => {
+  const routedAppComponent = (props) => {
+    return <RoutedAppContext.Consumer>
+      {context => <WrappedComponent {...props} {...context} />}
+    </RoutedAppContext.Consumer>
+  }
+  return routedAppComponent
+}
